@@ -1,0 +1,10 @@
+/.classpath
+/.settings
+/.project
+/.jruby
+*.iml
+*.ipr
+*.iws
+/target
+.DS_Store*
+/src/test/resources/mule-config.xml

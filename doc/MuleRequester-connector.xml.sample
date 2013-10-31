@@ -1,0 +1,3 @@
+<!-- BEGIN_INCLUDE(mulerequester:request) -->
+    <mulerequester:request resource="#[map-payload:content]" />
+<!-- END_INCLUDE(mulerequester:request) -->
