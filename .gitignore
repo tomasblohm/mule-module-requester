@@ -1,10 +1,11 @@
-/.classpath
-/.settings
-/.project
-/.jruby
+.classpath
+.settings
+.project
+.jruby
 *.iml
 *.ipr
 *.iws
-/target
+.studio
+bin/
 .DS_Store*
-/src/test/resources/mule-config.xml
+target/
