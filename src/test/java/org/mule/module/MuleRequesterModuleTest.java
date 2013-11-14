@@ -6,6 +6,8 @@ package org.mule.module;
 import java.util.HashMap;
 
 import org.junit.Test;
+import org.mule.api.DefaultMuleException;
+import org.mule.api.MessagingException;
 import org.mule.api.MuleEvent;
 import org.mule.construct.Flow;
 import org.mule.tck.AbstractMuleTestCase;
@@ -58,6 +60,18 @@ public class MuleRequesterModuleTest extends FunctionalTestCase
     {
         muleContext.getClient().dispatch("vm://testproperties", "my property", new HashMap<String, Object>());
         runFlowAndExpect("testResourceFromProperties", "my property");
+    }
+
+    public void testThrowExceptionOnError() throws Exception
+    {
+        Flow flow = lookupFlowConstruct("testThrowExceptionOnTimeout");
+        MuleEvent event = AbstractMuleTestCase.getTestEvent(null);
+        try {
+            MuleEvent responseEvent = flow.process(event);
+        } catch (Exception e) {
+            assertEquals(MessagingException.class, e.getClass());
+            assertEquals("No message received in the configured timeout - 1000", e.getCause().getMessage());
+        }
     }
 
     /**

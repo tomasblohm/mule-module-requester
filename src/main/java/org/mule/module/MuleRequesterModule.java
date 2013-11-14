@@ -46,11 +46,13 @@ public class MuleRequesterModule implements MuleContextAware {
      *            The timeout to wait for when requesting the resource
      * @param returnClass
      *            The return class to which this processor will transform the payload from the requested resource
+     * @param throwExceptionOnTimeout
+     *            Whether to throw an exception or not if no message is received in the configured timeout
      * @return the payload from the requested resource
      * @throws MuleException Some exception
      */
     @Processor
-    public Object request(String resource, @Optional @Default("1000") long timeout, @Optional String returnClass) throws MuleException {
+    public Object request(String resource, @Optional @Default("1000") long timeout, @Optional String returnClass, @Optional Boolean throwExceptionOnTimeout) throws MuleException {
         MuleMessage message = muleContext.getClient().request(resource, timeout);
         Object result = null;
         if (message != null)
@@ -65,6 +67,9 @@ public class MuleRequesterModule implements MuleContextAware {
                     throw new DefaultMuleException(e);
                 }
             }
+        } else if (Boolean.TRUE.equals(throwExceptionOnTimeout))
+        {
+            throw new DefaultMuleException("No message received in the configured timeout - " + timeout);
         }
         return result;
     }

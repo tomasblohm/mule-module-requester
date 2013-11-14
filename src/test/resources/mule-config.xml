@@ -39,4 +39,8 @@
         <mulerequester:request resource="#[flowVars['myresource']]" />
     </flow>
     
+    <flow name="testThrowExceptionOnTimeout">
+        <mulerequester:request resource="vm://timeout" timeout="1000" throwExceptionOnTimeout="true" />
+    </flow>
+    
 </mule>
