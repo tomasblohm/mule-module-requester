@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.mule.modules</groupId>
-    <artifactId>mule-requester</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>mule-module-requester</artifactId>
+    <version>0.7-SNAPSHOT</version>
     <packaging>mule-module</packaging>
-    <name>MuleSoft Requester Module</name>
+    <name>MuleSoft Module Requester</name>
 
     <properties>
         <mule.version>3.4.0</mule.version>
@@ -274,4 +274,28 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+
+    <distributionManagement>
+      <repository>
+        <id>muleforge-releases</id>
+        <name>MuleForge Snapshot Repository</name>
+        <url>https://repository.mulesoft.org/releases/</url>
+      </repository>
+      <snapshotRepository>
+        <id>muleforge-snapshots</id>
+        <name>MuleForge Repository</name>
+        <url>https://repository.mulesoft.org/snapshots/</url>
+        <uniqueVersion>false</uniqueVersion>
+      </snapshotRepository>
+    </distributionManagement>
+    <scm>
+      <connection>scm:git:git@github.com:mulesoft/mule-requester-module.git</connection>
+      <developerConnection>scm:git:git@github.com:mulesoft/mule-requester-module.git</developerConnection>
+      <url>http://github.com/mulesoft/mule-requester-module</url>
+    </scm>
+    <organization>
+      <url>http://mulesoft.com</url>
+      <name>MuleSoft, Inc</name>
+    </organization>
+
 </project>
