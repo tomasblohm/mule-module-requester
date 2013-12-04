@@ -278,12 +278,12 @@
       <repository>
         <id>muleforge-releases</id>
         <name>MuleForge Snapshot Repository</name>
-        <url>https://repository.mulesoft.org/releases/</url>
+        <url>https://repository-master.mulesoft.org/nexus/content/repositories/releases/</url>
       </repository>
       <snapshotRepository>
         <id>muleforge-snapshots</id>
         <name>MuleForge Repository</name>
-        <url>https://repository.mulesoft.org/snapshots/</url>
+        <url>https://repository-master.mulesoft.org/nexus/content/repositories/snapshots/</url>
         <uniqueVersion>false</uniqueVersion>
       </snapshotRepository>
     </distributionManagement>
