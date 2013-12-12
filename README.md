@@ -33,6 +33,22 @@ http://www.mulesoft.org/email-lists
 Also, MuleSoft, the company behind Mule, offers 24x7 support options:
 http://www.mulesoft.com/enterprise-subscriptions-and-support
 
+INSTALLATION
+============
+For MuleStudio
+--------------
+1. Download the update site zip file from the following location, replacing {version} with the desired one:
+https://repository-master.mulesoft.org/nexus/content/repositories/releases/org/mule/modules/mule-module-requester/{version}/mule-module-requester-{version}-studio-plugin.zip
+2. Install it in MuleStudio as a regular update site from a file. The module will appear under the Components tab.
+
+For Maven
+---------
+<dependency>
+    <groupId>org.mule.modules</groupId>
+    <artifactId>mule-requester</artifactId>
+    <version>{version}</version>        
+</dependency>  
+
 Enjoy your Mule ride!
 
 The Mule Team
