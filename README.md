@@ -43,11 +43,13 @@ https://repository-master.mulesoft.org/nexus/content/repositories/releases/org/m
 
 For Maven
 ---------
+```xml
 <dependency>
     <groupId>org.mule.modules</groupId>
     <artifactId>mule-requester</artifactId>
     <version>{version}</version>        
-</dependency>  
+</dependency>
+```  
 
 Enjoy your Mule ride!
 
