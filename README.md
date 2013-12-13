@@ -24,6 +24,7 @@ Parameters:
 - timeout The timeout to wait for when requesting the resource (optional - default 1000 ms)
 - returnClass The return class to which this processor will transform the payload from the requested resource (optional)
 - throwExceptionOnTimeout Whether to throw an exception or not if no message is received in the configured timeout (optional - default false)
+
 Returns:
 - the payload from the requested resource
 
