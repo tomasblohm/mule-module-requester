@@ -1,7 +1,7 @@
 
 WELCOME
 =======
-The goal of this module to enable the request of a resource at any point in a flow. This resource can be a file, a message (from VM, JMS, AMQP, etc.), an e-mail, etc. It's intended for resources than originally can only requested by message sources.
+The goal of this module to enable the request of a resource at any point in a flow. This resource can be a file, a message (from VM, JMS, AMQP, etc.), an e-mail, etc. It's intended for resources that originally can only requested by message sources.
 
 Some of its common use cases are:
 
