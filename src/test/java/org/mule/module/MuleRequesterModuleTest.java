@@ -3,15 +3,15 @@
  */
 package org.mule.module;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.HashMap;
 
 import org.junit.Test;
-import org.mule.api.DefaultMuleException;
 import org.mule.api.MessagingException;
 import org.mule.api.MuleEvent;
 import org.mule.construct.Flow;
-import org.mule.tck.AbstractMuleTestCase;
-import org.mule.tck.FunctionalTestCase;
+import org.mule.tck.junit4.FunctionalTestCase;
 import org.mule.transport.NullPayload;
 
 public class MuleRequesterModuleTest extends FunctionalTestCase
@@ -65,7 +65,7 @@ public class MuleRequesterModuleTest extends FunctionalTestCase
     public void testThrowExceptionOnError() throws Exception
     {
         Flow flow = lookupFlowConstruct("testThrowExceptionOnTimeout");
-        MuleEvent event = AbstractMuleTestCase.getTestEvent(null);
+        MuleEvent event = FunctionalTestCase.getTestEvent(null);
         try {
             MuleEvent responseEvent = flow.process(event);
         } catch (Exception e) {
@@ -83,7 +83,7 @@ public class MuleRequesterModuleTest extends FunctionalTestCase
     protected <T> void runFlowAndExpect(String flowName, T expect) throws Exception
     {
         Flow flow = lookupFlowConstruct(flowName);
-        MuleEvent event = AbstractMuleTestCase.getTestEvent(null);
+        MuleEvent event = FunctionalTestCase.getTestEvent(null);
         MuleEvent responseEvent = flow.process(event);
 
         assertEquals(expect, responseEvent.getMessage().getPayload());
@@ -100,7 +100,7 @@ public class MuleRequesterModuleTest extends FunctionalTestCase
     protected <T, U> void runFlowWithPayloadAndExpect(String flowName, T expect, U payload) throws Exception
     {
         Flow flow = lookupFlowConstruct(flowName);
-        MuleEvent event = AbstractMuleTestCase.getTestEvent(payload);
+        MuleEvent event = FunctionalTestCase.getTestEvent(payload);
         MuleEvent responseEvent = flow.process(event);
 
         assertEquals(expect, responseEvent.getMessage().getPayload());
@@ -113,6 +113,6 @@ public class MuleRequesterModuleTest extends FunctionalTestCase
      */
     protected Flow lookupFlowConstruct(String name)
     {
-        return (Flow) AbstractMuleTestCase.muleContext.getRegistry().lookupFlowConstruct(name);
+        return (Flow) FunctionalTestCase.muleContext.getRegistry().lookupFlowConstruct(name);
     }
 }
