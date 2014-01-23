@@ -4,12 +4,18 @@
 package org.mule.module;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
+import org.mule.DefaultMuleMessage;
 import org.mule.api.MessagingException;
 import org.mule.api.MuleEvent;
+import org.mule.api.MuleMessage;
+import org.mule.api.transport.PropertyScope;
 import org.mule.construct.Flow;
 import org.mule.tck.junit4.FunctionalTestCase;
 import org.mule.transport.NullPayload;
@@ -61,6 +67,16 @@ public class MuleRequesterModuleTest extends FunctionalTestCase
         muleContext.getClient().dispatch("vm://testproperties", "my property", new HashMap<String, Object>());
         runFlowAndExpect("testResourceFromProperties", "my property");
     }
+    
+    @Test
+    public void verifyPropertyNotBeingOverridden() throws Exception
+    {
+        HashMap<String, Object> properties = new HashMap<String, Object>();
+        properties.put("property", "my property");
+        MuleMessage message = new DefaultMuleMessage("my property",properties,muleContext );
+        muleContext.getClient().dispatch("vm://testproperties", message );
+        runFlowAndExpectProperties("testResourceFromProperties", properties);
+    }
 
     public void testThrowExceptionOnError() throws Exception
     {
@@ -74,7 +90,7 @@ public class MuleRequesterModuleTest extends FunctionalTestCase
         }
     }
 
-    /**
+   /**
     * Run the flow specified by name and assert equality on the expected output
     *
     * @param flowName The name of the flow to run
@@ -87,6 +103,27 @@ public class MuleRequesterModuleTest extends FunctionalTestCase
         MuleEvent responseEvent = flow.process(event);
 
         assertEquals(expect, responseEvent.getMessage().getPayload());
+    }
+    
+    /**
+     * Run the flow specified by name and assert equality on the expected output
+     *
+     * @param flowName The name of the flow to run
+     * @param expect The expected output
+     */
+    protected <T> void runFlowAndExpectProperties(String flowName, Map<String,Object> expect) throws Exception
+    {
+        Flow flow = lookupFlowConstruct(flowName);
+        MuleEvent event = FunctionalTestCase.getTestEvent(null);
+        MuleEvent responseEvent = flow.process(event);
+        Set<String> keySet = expect.keySet();
+        for (String key : keySet) {
+            assertTrue("Response does not contain the property "+ key,responseEvent.getMessage().getPropertyNames(PropertyScope.INBOUND).contains(key));
+            assertEquals(expect.get(key),responseEvent.getMessage().getProperty(key,PropertyScope.INBOUND));
+            
+        }
+        
+        
     }
 
     /**

@@ -67,10 +67,11 @@ public class MuleRequesterModule implements MuleContextAware {
                     throw new DefaultMuleException(e);
                 }
             }
+            message.setPayload(result);
         } else if (Boolean.TRUE.equals(throwExceptionOnTimeout))
         {
             throw new DefaultMuleException("No message received in the configured timeout - " + timeout);
         }
-        return result;
+        return message;
     }
 }
