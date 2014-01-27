@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.mule.modules</groupId>
   <artifactId>mule-module-requester</artifactId>
-  <version>0.9</version>
+  <version>0.9-SNAPSHOT</version>
   <packaging>mule-module</packaging>
   <name>MuleSoft Module Requester</name>
 
@@ -64,7 +64,7 @@
         <version>2.4.2</version>
         <configuration>
           <arguments>-Ddevkit.studio.package.skip=false</arguments>
-          <goals>deploy mule-devkit:github-upload-doc</goals>
+          <goals>deploy</goals>
         </configuration>
       </plugin>
       <plugin>
