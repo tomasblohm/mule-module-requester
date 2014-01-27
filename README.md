@@ -65,6 +65,26 @@ For Maven
 </dependency>
 ```  
 
+Modify (or include if you don't have it) your configuration for maven-mule-plugin as follows:
+```xml
+<plugin>
+    <groupId>org.mule.tools</groupId>
+    <artifactId>maven-mule-plugin</artifactId>
+    <version>1.9</version>
+    <extensions>true</extensions>
+    <configuration>
+        <excludeMuleDependencies>false</excludeMuleDependencies>
+        <copyToAppsDirectory>true</copyToAppsDirectory>
+        <inclusions>
+            <inclusion>
+                <groupId>org.mule.modules</groupId>
+                <artifactId>mule-module-requester</artifactId>
+            </inclusion>
+        </inclusions>          
+    </configuration>
+</plugin>
+```
+
 Enjoy your Mule ride!
 
 The Mule Team
