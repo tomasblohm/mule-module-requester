@@ -3,10 +3,15 @@
  */
 package org.mule.module;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.mule.DefaultMessageCollection;
 import org.mule.api.DefaultMuleException;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleException;
 import org.mule.api.MuleMessage;
+import org.mule.api.MuleMessageCollection;
 import org.mule.api.annotations.Category;
 import org.mule.api.annotations.Module;
 import org.mule.api.annotations.Processor;
@@ -74,4 +79,72 @@ public class MuleRequesterModule implements MuleContextAware {
         }
         return message;
     }
+    
+    /**
+     * Request a resource from an address or endpoint. <br>
+     * To make the request using the address, use the format "protocol://address". E.g.: "file://path/to/file". <br>
+     * Otherwise, you can use a global endpoint name. E.g.: "fileEndpoint". <br>
+     * 
+     * {@sample.xml ../../../doc/MuleRequester-connector.xml.sample
+     * mulerequester:request}
+     * 
+     * @param resource
+     *            The address of the resource or the global endpoint name
+     * @param timeout
+     *            The timeout to wait for when requesting the resource
+     * @param returnClass
+     *            The return class to which this processor will transform the payload from the requested resource
+     * @param throwExceptionOnTimeout
+     *            Whether to throw an exception or not if no message is received in the configured timeout
+     * @param count
+     *            Number of resources to retrieve. Default is -1 (all resources available).    
+     * @return the payload from the requested resource
+     * @throws MuleException Some exception
+     */
+    @Processor
+    public List<MuleMessage> requestCollection(String resource, @Optional @Default("1000") long timeout, @Optional String returnClass, 
+    		@Optional Boolean throwExceptionOnTimeout, @Optional @Default("-1") int count) throws MuleException 
+    {
+    	final List<MuleMessage> resultCollection = new ArrayList<MuleMessage>();
+    	boolean keepRequesting = count == -1 || count > 0;
+    	while (keepRequesting)
+    	{
+    		int currentCount = 1;
+    		MuleMessage message = muleContext.getClient().request(resource, timeout);
+    		Object result = null;
+    		if (message != null)
+    		{
+    			result = message.getPayload();
+    			if (returnClass != null) 
+    			{
+    				try 
+    				{
+    					Transformer transformer = muleContext.getRegistry().lookupTransformer(DataTypeFactory.create(result.getClass()), DataTypeFactory.create(Class.forName(returnClass)));
+    					result = transformer.transform(result);
+    				} 
+    				catch (ClassNotFoundException e) 
+    				{
+    					throw new DefaultMuleException(e);
+    				}
+    			}
+    			message.setPayload(result);
+    			resultCollection.add(message);
+    			currentCount++;
+    			keepRequesting = (count != -1 && currentCount < count);
+    		} 
+    		else
+    		{
+    			if (Boolean.TRUE.equals(throwExceptionOnTimeout))
+    			{
+    				throw new DefaultMuleException("No message received in the configured timeout - " + timeout);
+    			}
+    			else
+    			{
+    				keepRequesting = false;
+    			}
+    		}
+    	}
+        return resultCollection;
+    }    
+    
 }
