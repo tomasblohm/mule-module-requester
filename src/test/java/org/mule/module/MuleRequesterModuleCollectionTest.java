@@ -113,7 +113,7 @@ public class MuleRequesterModuleCollectionTest extends FunctionalTestCase
 		};
 		Arrays.sort(messages, comparator);
 		for (int i = 0; i < messages.length; i++) {
-			assertEquals(messages[i].getInboundProperty("myproperty"), String.valueOf(i));
+			assertEquals(messages[i].getInboundProperty("myproperty"), String.valueOf(i + 1));
 		}
     }
     

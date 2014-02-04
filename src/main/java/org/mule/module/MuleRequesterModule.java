@@ -7,11 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mule.DefaultMessageCollection;
-import org.mule.api.DefaultMuleException;
-import org.mule.api.MuleContext;
-import org.mule.api.MuleException;
-import org.mule.api.MuleMessage;
-import org.mule.api.MuleMessageCollection;
+import org.mule.api.*;
 import org.mule.api.annotations.Category;
 import org.mule.api.annotations.Module;
 import org.mule.api.annotations.Processor;
@@ -20,6 +16,8 @@ import org.mule.api.annotations.param.Optional;
 import org.mule.api.context.MuleContextAware;
 import org.mule.api.transformer.Transformer;
 import org.mule.transformer.types.DataTypeFactory;
+
+import javax.inject.Inject;
 
 /**
  * Generic module
@@ -97,21 +95,22 @@ public class MuleRequesterModule implements MuleContextAware {
      * @param throwExceptionOnTimeout
      *            Whether to throw an exception or not if no message is received in the configured timeout
      * @param count
-     *            Number of resources to retrieve. Default is -1 (all resources available).    
-     * @return the payload from the requested resource
+     *            Number of resources to retrieve. Default is -1 (all resources available).
+     * @param muleEvent MuleEvent
      * @throws MuleException Some exception
      */
     @Processor
-    public List<MuleMessage> requestCollection(String resource, @Optional @Default("1000") long timeout, @Optional String returnClass, 
+    @Inject
+    public void requestCollection(MuleEvent muleEvent, String resource, @Optional @Default("1000") long timeout, @Optional String returnClass,
     		@Optional Boolean throwExceptionOnTimeout, @Optional @Default("-1") int count) throws MuleException 
     {
-    	final List<MuleMessage> resultCollection = new ArrayList<MuleMessage>();
+    	final MuleMessageCollection resultCollection = new DefaultMessageCollection(muleContext);
     	boolean keepRequesting = count == -1 || count > 0;
     	while (keepRequesting)
     	{
     		int currentCount = 1;
     		MuleMessage message = muleContext.getClient().request(resource, timeout);
-    		Object result = null;
+    		Object result;
     		if (message != null)
     		{
     			result = message.getPayload();
@@ -119,7 +118,8 @@ public class MuleRequesterModule implements MuleContextAware {
     			{
     				try 
     				{
-    					Transformer transformer = muleContext.getRegistry().lookupTransformer(DataTypeFactory.create(result.getClass()), DataTypeFactory.create(Class.forName(returnClass)));
+    					Transformer transformer = muleContext.getRegistry().lookupTransformer(DataTypeFactory.create(result.getClass()),
+                                DataTypeFactory.create(Class.forName(returnClass)));
     					result = transformer.transform(result);
     				} 
     				catch (ClassNotFoundException e) 
@@ -128,7 +128,7 @@ public class MuleRequesterModule implements MuleContextAware {
     				}
     			}
     			message.setPayload(result);
-    			resultCollection.add(message);
+    			resultCollection.addMessage(message);
     			currentCount++;
     			keepRequesting = (count != -1 && currentCount < count);
     		} 
@@ -144,7 +144,7 @@ public class MuleRequesterModule implements MuleContextAware {
     			}
     		}
     	}
-        return resultCollection;
+        muleEvent.setMessage(resultCollection);
     }    
     
 }
