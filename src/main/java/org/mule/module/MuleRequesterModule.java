@@ -53,7 +53,7 @@ public class MuleRequesterModule implements MuleContextAware {
      *            The return class to which this processor will transform the payload from the requested resource
      * @param throwExceptionOnTimeout
      *            Whether to throw an exception or not if no message is received in the configured timeout
-     * @return the payload from the requested resource
+     * @return a MuleMessage containing the requested resource as the payload
      * @throws MuleException Some exception
      */
     @Processor
@@ -81,7 +81,7 @@ public class MuleRequesterModule implements MuleContextAware {
     }
     
     /**
-     * Request a resource from an address or endpoint. <br>
+     * Request a collection of resources from an address or endpoint. <br>
      * To make the request using the address, use the format "protocol://address". E.g.: "file://path/to/file". <br>
      * Otherwise, you can use a global endpoint name. E.g.: "fileEndpoint". <br>
      * 

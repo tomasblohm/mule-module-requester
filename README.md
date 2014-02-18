@@ -10,6 +10,9 @@ Some of its common use cases are:
 
 Usage
 -----
+
+### Single resource
+
 ```xml
 <mulerequester:request config-ref="" resource="" timeout="" returnClass="" throwExceptionOnTimeout="" />
 ```
@@ -25,7 +28,28 @@ Parameters:
 - throwExceptionOnTimeout Whether to throw an exception or not if no message is received in the configured timeout (optional - default false)
 
 Returns:
-- the payload from the requested resource
+- A MuleMessage containing the requested resource as the payload
+
+### Collection of resources
+
+```xml
+<mulerequester:request-collection config-ref="" resource="" timeout="" returnClass="" throwExceptionOnTimeout="" count="" />
+```
+
+Request a resource from an address or endpoint. 
+To make the request using the address, use the format "protocol://address". E.g.: "file://path/to/file". 
+Otherwise, you can use a global endpoint name. E.g.: "fileEndpoint". 
+
+Parameters:
+- resource The address of the resource or the global endpoint name
+- timeout The timeout to wait for when requesting the resource (optional - default 1000 ms)
+- returnClass The return class to which this processor will transform the payload from the requested resource (optional)
+- throwExceptionOnTimeout Whether to throw an exception or not if no message is received in the configured timeout (optional - default false)
+- count Number of resources to retrieve. Default is -1 (all resources available).
+
+Returns:
+- A MuleMessageCollection with the requested resources as part of MuleMessages
+
 
 TESTING
 =======
