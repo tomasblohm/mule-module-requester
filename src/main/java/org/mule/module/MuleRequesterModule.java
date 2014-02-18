@@ -3,11 +3,15 @@
  */
 package org.mule.module;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Inject;
 
 import org.mule.DefaultMessageCollection;
-import org.mule.api.*;
+import org.mule.api.DefaultMuleException;
+import org.mule.api.MuleContext;
+import org.mule.api.MuleEvent;
+import org.mule.api.MuleException;
+import org.mule.api.MuleMessage;
+import org.mule.api.MuleMessageCollection;
 import org.mule.api.annotations.Category;
 import org.mule.api.annotations.Module;
 import org.mule.api.annotations.Processor;
@@ -16,8 +20,6 @@ import org.mule.api.annotations.param.Optional;
 import org.mule.api.context.MuleContextAware;
 import org.mule.api.transformer.Transformer;
 import org.mule.transformer.types.DataTypeFactory;
-
-import javax.inject.Inject;
 
 /**
  * Generic module
