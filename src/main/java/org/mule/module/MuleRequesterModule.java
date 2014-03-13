@@ -132,7 +132,7 @@ public class MuleRequesterModule implements MuleContextAware {
     			message.setPayload(result);
     			resultCollection.addMessage(message);
     			currentCount++;
-    			keepRequesting = (count != -1 && currentCount < count);
+    			keepRequesting = (count == -1 || currentCount < count);
     		} 
     		else
     		{

@@ -17,6 +17,10 @@
         <mulerequester:request-collection resource="vm://in" />
     </flow>
 
+    <flow name="testRequestAll">
+        <mulerequester:request-collection resource="vm://all" count="-1" />
+    </flow>
+
     <flow name="testDefaultTimeoutForAll">
         <mulerequester:request-collection resource="vm://delay" />
     </flow>

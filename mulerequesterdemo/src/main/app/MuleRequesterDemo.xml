@@ -19,7 +19,7 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
         <flow-ref name="QueueRequester" doc:name="Flow Reference"/>
     </flow>
     <flow name="QueueRequester" doc:name="QueueRequester">
-        <mulerequester:request config-ref="Mule_Requester" resource="jms://input" doc:name="Request a message from a queue"/>
+        <mulerequester:request config-ref="Mule_Requester" resource="jms://input" doc:name="Request a message from a queue" />
         <choice doc:name="Choice">
             <when expression="#[!(payload instanceof org.mule.transport.NullPayload)]">
 		        <logger message="Payload from JMS message: #[payload]" level="WARN" doc:name="Logger"/>
@@ -28,6 +28,16 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
             <otherwise>
 		        <logger message="Queue empty" level="WARN" doc:name="Logger"/>
             </otherwise>
-        </choice>        
+        </choice>
+    </flow>
+    <flow name="CountRequester" doc:name="MuleRequesterDemoFlow1">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" doc:name="HTTP" path="request3messages"/>
+        <mulerequester:request-collection config-ref="Mule_Requester" resource="jms://input" doc:name="Mule Requester" count="3"/>
+        <logger level="INFO" doc:name="Logger" message="Payload: #[payload]"/>
+    </flow>
+    <flow name="RequestAll" doc:name="MuleRequesterDemoFlow1">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" doc:name="HTTP" path="requestall"/>
+        <mulerequester:request-collection config-ref="Mule_Requester" resource="jms://input" doc:name="Mule Requester" count="-1"/>
+        <logger level="INFO" doc:name="Logger" message="Payload: #[payload]"/>
     </flow>
 </mule>
