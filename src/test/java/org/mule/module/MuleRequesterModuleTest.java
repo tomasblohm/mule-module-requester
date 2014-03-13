@@ -78,6 +78,7 @@ public class MuleRequesterModuleTest extends FunctionalTestCase
         runFlowAndExpectProperties("testResourceFromProperties", properties);
     }
 
+    @SuppressWarnings("unused")
     public void testThrowExceptionOnError() throws Exception
     {
         Flow flow = lookupFlowConstruct("testThrowExceptionOnTimeout");
