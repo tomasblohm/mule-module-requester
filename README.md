@@ -36,7 +36,7 @@ Returns:
 <mulerequester:request-collection config-ref="" resource="" timeout="" returnClass="" throwExceptionOnTimeout="" count="" />
 ```
 
-Request a resource from an address or endpoint. 
+Request a collection of resources from an address or endpoint. 
 To make the request using the address, use the format "protocol://address". E.g.: "file://path/to/file". 
 Otherwise, you can use a global endpoint name. E.g.: "fileEndpoint". 
 
