@@ -21,6 +21,10 @@
         <mulerequester:request-collection resource="vm://all" count="-1" />
     </flow>
 
+    <flow name="testRequestN">
+        <mulerequester:request-collection resource="vm://n" count="2" />
+    </flow>
+
     <flow name="testDefaultTimeoutForAll">
         <mulerequester:request-collection resource="vm://delay" />
     </flow>
@@ -58,5 +62,5 @@
     <flow name="testPropertyPreservedForN">
         <mulerequester:request-collection resource="vm://testPropertyPreservedForN" count="3" />
     </flow>
-    
+
 </mule>

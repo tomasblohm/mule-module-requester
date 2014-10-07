@@ -56,6 +56,19 @@ public class MuleRequesterModuleCollectionTest extends FunctionalTestCase
     }
 
     @Test
+    public void testRequestN() throws Exception
+    {
+        List<String> expectedList = new ArrayList<String>();
+        expectedList.add("1");
+        expectedList.add("2");
+        HashMap<String, Object> messageProperties = new HashMap<String, Object>();
+        muleContext.getClient().dispatch("vm://n", "1", messageProperties);
+        muleContext.getClient().dispatch("vm://n", "2", messageProperties);
+        muleContext.getClient().dispatch("vm://n", "3", messageProperties);
+        runFlowAndExpectCollection("testRequestN", expectedList);
+    }
+
+    @Test
     public void testDefaultTimeoutForAll() throws Exception
     {
         runFlowAndExpect("testDefaultTimeoutForAll", Collections.EMPTY_LIST);

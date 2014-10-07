@@ -108,9 +108,9 @@ public class MuleRequesterModule implements MuleContextAware {
     {
     	final MuleMessageCollection resultCollection = new DefaultMessageCollection(muleContext);
     	boolean keepRequesting = count == -1 || count > 0;
+    	int currentCount = 0;
     	while (keepRequesting)
     	{
-    		int currentCount = 1;
     		MuleMessage message = muleContext.getClient().request(resource, timeout);
     		Object result;
     		if (message != null)
