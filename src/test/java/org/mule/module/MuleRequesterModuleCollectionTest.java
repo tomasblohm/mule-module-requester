@@ -59,12 +59,12 @@ public class MuleRequesterModuleCollectionTest extends FunctionalTestCase
     public void testRequestN() throws Exception
     {
         List<String> expectedList = new ArrayList<String>();
-        expectedList.add("1");
-        expectedList.add("2");
+        expectedList.add("a");
+        expectedList.add("a");
         HashMap<String, Object> messageProperties = new HashMap<String, Object>();
-        muleContext.getClient().dispatch("vm://n", "1", messageProperties);
-        muleContext.getClient().dispatch("vm://n", "2", messageProperties);
-        muleContext.getClient().dispatch("vm://n", "3", messageProperties);
+        muleContext.getClient().dispatch("vm://n", "a", messageProperties);
+        muleContext.getClient().dispatch("vm://n", "a", messageProperties);
+        muleContext.getClient().dispatch("vm://n", "a", messageProperties);
         runFlowAndExpectCollection("testRequestN", expectedList);
     }
 
