@@ -36,7 +36,7 @@ Returns:
 <mulerequester:request-collection config-ref="" resource="" timeout="" returnClass="" throwExceptionOnTimeout="" count="" />
 ```
 
-Request a resource from an address or endpoint. 
+Request a collection of resources from an address or endpoint. 
 To make the request using the address, use the format "protocol://address". E.g.: "file://path/to/file". 
 Otherwise, you can use a global endpoint name. E.g.: "fileEndpoint". 
 
@@ -76,7 +76,7 @@ INSTALLATION
 For MuleStudio
 --------------
 1. Download the update site zip file from the following location:
-https://repository-master.mulesoft.org/nexus/content/repositories/releases/org/mule/modules/mule-module-requester/0.9/mule-module-requester-0.9-studio-plugin.zip
+https://repository-master.mulesoft.org/nexus/content/repositories/releases/org/mule/modules/mule-module-requester/1.0/mule-module-requester-1.0-studio-plugin.zip
 2. Install it in MuleStudio as a regular update site from a file. The module will appear under the Components tab.
 
 For Maven
@@ -85,7 +85,7 @@ For Maven
 <dependency>
     <groupId>org.mule.modules</groupId>
     <artifactId>mule-module-requester</artifactId>
-    <version>0.9</version>        
+    <version>1.0</version>        
 </dependency>
 ```  
 
