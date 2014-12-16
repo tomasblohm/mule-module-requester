@@ -3,6 +3,8 @@
  */
 package org.mule.module;
 
+import java.util.Properties;
+
 import javax.inject.Inject;
 
 import org.mule.DefaultMessageCollection;
@@ -18,8 +20,13 @@ import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
 import org.mule.api.context.MuleContextAware;
+import org.mule.api.endpoint.EndpointBuilder;
+import org.mule.api.endpoint.InboundEndpoint;
 import org.mule.api.transformer.Transformer;
+import org.mule.endpoint.MuleEndpointURI;
+import org.mule.routing.MessageFilter;
 import org.mule.transformer.types.DataTypeFactory;
+import org.mule.transport.file.filters.FilenameWildcardFilter;
 
 /**
  * Generic module
@@ -58,8 +65,20 @@ public class MuleRequesterModule implements MuleContextAware {
      */
     @Processor
     public Object request(String resource, @Optional @Default("1000") long timeout, @Optional String returnClass, @Optional Boolean throwExceptionOnTimeout) throws MuleException {
-        MuleMessage message = muleContext.getClient().request(resource, timeout);
-        Object result = null;
+    	MuleEndpointURI endpointUri = new MuleEndpointURI(resource,muleContext);
+		Properties params = endpointUri.getParams();
+		EndpointBuilder endpointBuilder = muleContext.getEndpointFactory().getEndpointBuilder(resource);
+		if (params.containsKey("fileNameFilter")) {
+			endpointBuilder.addMessageProcessor(new MessageFilter(new FilenameWildcardFilter(params.getProperty("fileNameFilter"))));
+		}
+		InboundEndpoint inboundEndpoint = endpointBuilder.buildInboundEndpoint();
+		MuleMessage message = null;
+		try {
+			message = inboundEndpoint.request(30000L);
+		} catch (Exception e1) {
+			throw new DefaultMuleException(e1.getMessage());
+		}
+    	Object result = null;
         if (message != null)
         {
             result = message.getPayload();
